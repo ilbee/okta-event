@@ -1,0 +1,38 @@
+# src/Resources/config/services.yaml
+services:
+  _defaults:
+    autowire: false
+    autoconfigure: true
+    public: false
+
+  Ilbee\Okta\Event\Service\OktaEventMapper:
+    arguments:
+      - '@logger'
+
+  Ilbee\Okta\Event\Service\OktaEventRegistry: ~
+
+  Ilbee\Okta\Event\Service\NullOktaEventIdStore: ~
+
+  Ilbee\Okta\Event\Service\OktaEventIdStoreInterface:
+    alias: Ilbee\Okta\Event\Service\NullOktaEventIdStore
+
+  Ilbee\Okta\Event\Controller\OktaWebhookController:
+    public: true
+    arguments:
+      - '@serializer'
+      - '@event_dispatcher'
+      - '@logger'
+      - '%okta_event.webhook_secret%'
+      - '@Ilbee\Okta\Event\Service\OktaEventMapper'
+      - '@Ilbee\Okta\Event\Service\OktaEventIdStoreInterface'
+      - '%okta_event.verification_enabled%'
+      - '%okta_event.max_payload_size%'
+      - '%okta_event.max_events_per_request%'
+      - '@Ilbee\Okta\Event\Service\OktaEventRegistry'
+    tags: ['controller.service_arguments']
+
+  Ilbee\Okta\Event\Routing\OktaEventRouteLoader:
+    arguments:
+      - '%okta_event.route%'
+      - 'Ilbee\Okta\Event\Controller\OktaWebhookController'
+    tags: [ 'routing.loader' ]
