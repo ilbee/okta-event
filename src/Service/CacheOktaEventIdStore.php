@@ -19,6 +19,9 @@ final readonly class CacheOktaEventIdStore implements OktaEventIdStoreInterface
         private CacheItemPoolInterface $cache,
         private int $ttl = self::DEFAULT_TTL,
     ) {
+        if ($this->ttl <= 0) {
+            throw new \InvalidArgumentException(\sprintf('TTL must be a positive integer, %d given.', $this->ttl));
+        }
     }
 
     public function has(string $eventId): bool

@@ -11,7 +11,9 @@ services:
 
   Ilbee\Okta\Event\Service\OktaEventRegistry: ~
 
-  Ilbee\Okta\Event\Service\NullOktaEventIdStore: ~
+  Ilbee\Okta\Event\Service\NullOktaEventIdStore:
+    arguments:
+      - '@logger'
 
   Ilbee\Okta\Event\Service\OktaEventIdStoreInterface:
     alias: Ilbee\Okta\Event\Service\NullOktaEventIdStore
