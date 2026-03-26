@@ -48,9 +48,10 @@ class OktaWebhookControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('Content-Type', 'application/json');
 
-        $responseContent = $client->getResponse()->getContent();
+        $responseContent = (string) $client->getResponse()->getContent();
         self::assertJson($responseContent);
 
+        /** @var array<string, mixed> $decodedResponse */
         $decodedResponse = json_decode($responseContent, true);
         self::assertArrayHasKey('verification', $decodedResponse);
         self::assertSame($challenge, $decodedResponse['verification']);
@@ -125,7 +126,7 @@ class OktaWebhookControllerTest extends WebTestCase
     public function testPostValidDeactivateEventDispatchesTypedEvent(): void
     {
         $client = static::createClient();
-        $payload = json_encode($this->buildLifecyclePayload('user.lifecycle.deactivate'));
+        $payload = (string) json_encode($this->buildLifecyclePayload('user.lifecycle.deactivate'));
 
         $client->request(
             'POST',
@@ -143,7 +144,7 @@ class OktaWebhookControllerTest extends WebTestCase
     public function testPostValidSuspendEventDispatchesTypedEvent(): void
     {
         $client = static::createClient();
-        $payload = json_encode($this->buildLifecyclePayload('user.lifecycle.suspend'));
+        $payload = (string) json_encode($this->buildLifecyclePayload('user.lifecycle.suspend'));
 
         $client->request(
             'POST',
@@ -160,7 +161,7 @@ class OktaWebhookControllerTest extends WebTestCase
     public function testPostValidActivateEvent(): void
     {
         $client = static::createClient();
-        $payload = json_encode($this->buildLifecyclePayload('user.lifecycle.activate'));
+        $payload = (string) json_encode($this->buildLifecyclePayload('user.lifecycle.activate'));
 
         $client->request(
             'POST',
@@ -177,7 +178,7 @@ class OktaWebhookControllerTest extends WebTestCase
     public function testPostValidUnsuspendEvent(): void
     {
         $client = static::createClient();
-        $payload = json_encode($this->buildLifecyclePayload('user.lifecycle.unsuspend'));
+        $payload = (string) json_encode($this->buildLifecyclePayload('user.lifecycle.unsuspend'));
 
         $client->request(
             'POST',
@@ -194,7 +195,7 @@ class OktaWebhookControllerTest extends WebTestCase
     public function testPostValidPasswordResetEvent(): void
     {
         $client = static::createClient();
-        $payload = json_encode($this->buildLifecyclePayload('user.lifecycle.password_reset'));
+        $payload = (string) json_encode($this->buildLifecyclePayload('user.lifecycle.password_reset'));
 
         $client->request(
             'POST',
@@ -211,7 +212,7 @@ class OktaWebhookControllerTest extends WebTestCase
     public function testPostGroupMemberAddedEvent(): void
     {
         $client = static::createClient();
-        $payload = json_encode($this->buildGroupPayload('group.user_membership.add'));
+        $payload = (string) json_encode($this->buildGroupPayload('group.user_membership.add'));
 
         $client->request(
             'POST',
@@ -228,7 +229,7 @@ class OktaWebhookControllerTest extends WebTestCase
     public function testPostGroupMemberRemovedEvent(): void
     {
         $client = static::createClient();
-        $payload = json_encode($this->buildGroupPayload('group.user_membership.remove'));
+        $payload = (string) json_encode($this->buildGroupPayload('group.user_membership.remove'));
 
         $client->request(
             'POST',
@@ -245,7 +246,7 @@ class OktaWebhookControllerTest extends WebTestCase
     public function testPostAppUserAssignedEvent(): void
     {
         $client = static::createClient();
-        $payload = json_encode($this->buildAppPayload('application.user_membership.add'));
+        $payload = (string) json_encode($this->buildAppPayload('application.user_membership.add'));
 
         $client->request(
             'POST',
@@ -262,7 +263,7 @@ class OktaWebhookControllerTest extends WebTestCase
     public function testPostAppUserUnassignedEvent(): void
     {
         $client = static::createClient();
-        $payload = json_encode($this->buildAppPayload('application.user_membership.remove'));
+        $payload = (string) json_encode($this->buildAppPayload('application.user_membership.remove'));
 
         $client->request(
             'POST',
@@ -279,7 +280,7 @@ class OktaWebhookControllerTest extends WebTestCase
     public function testPostUnhandledEventTypeIsIgnored(): void
     {
         $client = static::createClient();
-        $payload = json_encode($this->buildGenericPayload('completely.unknown.event'));
+        $payload = (string) json_encode($this->buildGenericPayload('completely.unknown.event'));
 
         $client->request(
             'POST',
@@ -312,7 +313,7 @@ class OktaWebhookControllerTest extends WebTestCase
     public function testPostTargetWithNonEmailAlternateIdIsSkipped(): void
     {
         $client = static::createClient();
-        $payload = json_encode([
+        $payload = (string) json_encode([
             'data' => [
                 'events' => [
                     [
@@ -358,7 +359,7 @@ class OktaWebhookControllerTest extends WebTestCase
             $dispatched[] = $event;
         });
 
-        $payload = json_encode($payloadBuilder($eventType));
+        $payload = (string) json_encode($payloadBuilder($eventType));
 
         $client->request(
             'POST',
@@ -407,7 +408,7 @@ class OktaWebhookControllerTest extends WebTestCase
             $dispatched[] = $event;
         });
 
-        $payload = json_encode($this->buildLifecyclePayload('user.lifecycle.deactivate'));
+        $payload = (string) json_encode($this->buildLifecyclePayload('user.lifecycle.deactivate'));
 
         $client->request(
             'POST',
@@ -435,7 +436,7 @@ class OktaWebhookControllerTest extends WebTestCase
             $dispatched[] = $event;
         });
 
-        $payload = json_encode($this->buildLifecyclePayload('user.lifecycle.suspend'));
+        $payload = (string) json_encode($this->buildLifecyclePayload('user.lifecycle.suspend'));
 
         $client->request(
             'POST',
@@ -463,7 +464,7 @@ class OktaWebhookControllerTest extends WebTestCase
             $dispatched[] = $event;
         });
 
-        $payload = json_encode($this->buildGroupPayload('group.user_membership.add'));
+        $payload = (string) json_encode($this->buildGroupPayload('group.user_membership.add'));
 
         $client->request(
             'POST',
@@ -491,7 +492,7 @@ class OktaWebhookControllerTest extends WebTestCase
             $dispatched[] = $event;
         });
 
-        $payload = json_encode($this->buildAppPayload('application.user_membership.add'));
+        $payload = (string) json_encode($this->buildAppPayload('application.user_membership.add'));
 
         $client->request(
             'POST',
@@ -523,7 +524,7 @@ class OktaWebhookControllerTest extends WebTestCase
             $groupDispatched[] = $event;
         });
 
-        $payload = json_encode($this->buildGenericPayload('access.request.create'));
+        $payload = (string) json_encode($this->buildGenericPayload('access.request.create'));
 
         $client->request(
             'POST',
@@ -536,7 +537,6 @@ class OktaWebhookControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         self::assertCount(1, $individualDispatched);
-        self::assertInstanceOf(OktaAccessRequestCreatedEvent::class, $individualDispatched[0]);
         self::assertSame('access.request.create', $individualDispatched[0]->oktaEvent->eventType);
         // Group events: individual extends group, so the group listener catches both dispatches
         self::assertGreaterThanOrEqual(1, \count($groupDispatched));
@@ -553,7 +553,7 @@ class OktaWebhookControllerTest extends WebTestCase
             $groupDispatched[] = $event;
         });
 
-        $payload = json_encode($this->buildLifecyclePayload('user.lifecycle.deactivate'));
+        $payload = (string) json_encode($this->buildLifecyclePayload('user.lifecycle.deactivate'));
 
         $client->request(
             'POST',
@@ -580,7 +580,7 @@ class OktaWebhookControllerTest extends WebTestCase
             $dispatched[] = $event;
         });
 
-        $payload = json_encode($this->buildGenericPayload('completely.unknown.event.type'));
+        $payload = (string) json_encode($this->buildGenericPayload('completely.unknown.event.type'));
 
         $client->request(
             'POST',

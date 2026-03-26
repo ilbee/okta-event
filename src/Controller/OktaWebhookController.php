@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Ilbee\Okta\Event\Controller;
 
-use Psr\Log\LoggerInterface;
 use Ilbee\Okta\Event\DTO\OktaWebhookPayload;
 use Ilbee\Okta\Event\Event\GenericOktaEvent;
 use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserLifecycleEvent;
 use Ilbee\Okta\Event\Service\OktaEventIdStoreInterface;
 use Ilbee\Okta\Event\Service\OktaEventMapper;
 use Ilbee\Okta\Event\Service\OktaEventRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

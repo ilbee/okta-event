@@ -6,11 +6,15 @@ namespace Ilbee\Okta\Event\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Ilbee\Okta\Event\OktaEventBundle;
+use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 class OktaEventBundleTest extends TestCase
 {
     public function testInstantiateOktaEventBundle(): void
     {
-        self::assertInstanceOf(OktaEventBundle::class, new OktaEventBundle());
+        $bundle = new OktaEventBundle();
+        /** @var array<string, class-string> $parents */
+        $parents = class_parents($bundle);
+        self::assertArrayHasKey(AbstractBundle::class, $parents);
     }
 }
