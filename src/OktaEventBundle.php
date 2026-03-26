@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ilbee\Okta\Event;
 
+use Ilbee\Okta\Event\DependencyInjection\WebhookSecretEnvCheckPass;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -13,6 +14,13 @@ use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 final class OktaEventBundle extends AbstractBundle
 {
+    public function build(ContainerBuilder $container): void
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new WebhookSecretEnvCheckPass());
+    }
+
     /**
      * Defines the bundle's configuration tree.
      */
