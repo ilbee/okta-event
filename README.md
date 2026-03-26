@@ -8,6 +8,17 @@
 
 A Symfony bundle that receives [Okta Event Hooks](https://developer.okta.com/docs/concepts/event-hooks/) and dispatches typed Symfony events you can listen to in your application.
 
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Okta Setup](#okta-setup)
+- [Usage](#usage)
+- [Security Recommendations](#security-recommendations)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Features
 
 - Automatic webhook endpoint registration (GET verification + POST processing)
