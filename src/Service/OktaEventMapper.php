@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Ilbee\Okta\Event\Service;
 
-use Psr\Log\LoggerInterface;
 use Ilbee\Okta\Event\DTO\OktaEvent;
 use Ilbee\Okta\Event\DTO\OktaTarget;
 use Ilbee\Okta\Event\Event\AbstractOktaEvent;
@@ -21,6 +20,7 @@ use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserProfileUpdatedEvent;
 use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserReactivatedEvent;
 use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserSuspendedEvent;
 use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserUnsuspendedEvent;
+use Psr\Log\LoggerInterface;
 
 final readonly class OktaEventMapper
 {

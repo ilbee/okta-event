@@ -25,11 +25,12 @@ use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserReactivatedEvent;
 use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserSuspendedEvent;
 use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserUnsuspendedEvent;
 use Ilbee\Okta\Event\Service\OktaEventMapper;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class OktaEventMapperTest extends TestCase
 {
     private OktaEventMapper $mapper;
-    private LoggerInterface $logger;
+    private LoggerInterface&MockObject $logger;
 
     protected function setUp(): void
     {
@@ -83,6 +84,7 @@ class OktaEventMapperTest extends TestCase
         self::assertSame('user@example.com', $result->userEmail);
         self::assertSame($eventType, $result->eventType);
         self::assertSame('00u1234567890', $result->target->id);
+        self::assertNotNull($result->actor);
         self::assertSame('00uadmin123', $result->actor->id);
     }
 

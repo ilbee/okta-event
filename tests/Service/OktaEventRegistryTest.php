@@ -28,6 +28,9 @@ class OktaEventRegistryTest extends TestCase
         $this->registry = new OktaEventRegistry();
     }
 
+    /**
+     * @param class-string<GenericOktaEvent> $expectedClass
+     */
     #[DataProvider('individualEventProvider')]
     public function testCreateIndividualEventReturnsCorrectClass(string $eventType, string $expectedClass): void
     {
@@ -51,6 +54,9 @@ class OktaEventRegistryTest extends TestCase
         yield 'user_session_start' => ['user.session.start', OktaUserSessionStartedEvent::class];
     }
 
+    /**
+     * @param class-string<GenericOktaEvent> $expectedClass
+     */
     #[DataProvider('groupEventProvider')]
     public function testCreateGroupEventReturnsCorrectClass(string $eventType, string $expectedClass): void
     {
@@ -100,7 +106,9 @@ class OktaEventRegistryTest extends TestCase
         self::assertNotNull($group);
         self::assertInstanceOf(OktaAccessRequestCreatedEvent::class, $individual);
         self::assertInstanceOf(OktaAccessRequestEvent::class, $group);
-        self::assertInstanceOf(OktaAccessRequestEvent::class, $individual, 'Individual event should extend the group event class');
+        /** @var array<string, class-string> $parents */
+        $parents = class_parents($individual);
+        self::assertArrayHasKey(OktaAccessRequestEvent::class, $parents, 'Individual event should extend the group event class');
     }
 
     public function testGetIndividualEventClassReturnsNullForTypedMapperEvents(): void

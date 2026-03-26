@@ -40,7 +40,7 @@ class OktaEventIdStoreTest extends TestCase
 
         $store = new NullOktaEventIdStore($logger);
 
-        $store->has('event-1');
+        self::assertFalse($store->has('event-1'));
     }
 
     public function testCacheStoreDetectsDuplicate(): void

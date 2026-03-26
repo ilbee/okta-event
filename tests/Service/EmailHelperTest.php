@@ -24,6 +24,9 @@ final class EmailHelperTest extends TestCase
         self::assertSame($expectedUsername, $this->emailHelper->getBaseUsername($email));
     }
 
+    /**
+     * @return array<string, array{string, string}>
+     */
     public static function emailProviderForBaseUsername(): array
     {
         return [
@@ -44,6 +47,9 @@ final class EmailHelperTest extends TestCase
         self::assertSame($expectedDomain, $this->emailHelper->getDomain($email));
     }
 
+    /**
+     * @return array<string, array{string, string}>
+     */
     public static function emailProviderForDomain(): array
     {
         return [
