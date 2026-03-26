@@ -18,6 +18,7 @@ A Symfony bundle that receives [Okta Event Hooks](https://developer.okta.com/doc
 - [Security Recommendations](#security-recommendations)
 - [Contributing](#contributing)
 - [License](#license)
+- [Full Documentation](docs/index.md)
 
 ## Features
 
