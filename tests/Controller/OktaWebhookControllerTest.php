@@ -143,7 +143,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             '{"this is not valid json'
         );
 
@@ -160,7 +160,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -178,7 +178,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -195,7 +195,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -212,7 +212,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -229,7 +229,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -246,7 +246,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -263,7 +263,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -280,7 +280,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -297,7 +297,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -314,7 +314,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -330,7 +330,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             '{"data":{"events":[]}}'
         );
 
@@ -364,7 +364,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -393,7 +393,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -442,7 +442,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -470,7 +470,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -498,7 +498,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -526,7 +526,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -558,7 +558,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -587,7 +587,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -614,7 +614,7 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 

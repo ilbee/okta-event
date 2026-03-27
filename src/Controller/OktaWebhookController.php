@@ -61,6 +61,23 @@ final readonly class OktaWebhookController
             return $this->handleVerification($request);
         }
 
+        $contentType = $request->headers->get('Content-Type', '');
+        if (!str_starts_with($contentType, 'application/json')) {
+            $this->logger->warning('Unsupported Content-Type.', ['content_type' => $contentType]);
+
+            return new Response('Unsupported Media Type.', Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
+        }
+
+        $contentLength = $request->headers->get('Content-Length');
+        if (null !== $contentLength && (int) $contentLength > $this->maxPayloadSize) {
+            $this->logger->warning('Content-Length exceeds maximum allowed size.', [
+                'content_length' => (int) $contentLength,
+                'max' => $this->maxPayloadSize,
+            ]);
+
+            return new Response('Payload too large.', Response::HTTP_REQUEST_ENTITY_TOO_LARGE);
+        }
+
         $body = $request->getContent();
         if (\strlen($body) > $this->maxPayloadSize) {
             $this->logger->warning('Payload exceeds maximum allowed size.', [
