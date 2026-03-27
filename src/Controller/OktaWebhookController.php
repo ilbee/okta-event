@@ -44,10 +44,6 @@ final readonly class OktaWebhookController
 
     public function __invoke(Request $request): Response
     {
-        if ($request->isMethod('GET')) {
-            return $this->handleVerification($request);
-        }
-
         $authToken = $request->headers->get('X-Auth-Token');
         if (!$authToken) {
             $this->logger->error('X-Auth-Token header is missing.');
@@ -59,6 +55,10 @@ final readonly class OktaWebhookController
             $this->logger->error('Invalid X-Auth-Token.');
 
             return new Response('Invalid token.', Response::HTTP_FORBIDDEN);
+        }
+
+        if ($request->isMethod('GET')) {
+            return $this->handleVerification($request);
         }
 
         $body = $request->getContent();

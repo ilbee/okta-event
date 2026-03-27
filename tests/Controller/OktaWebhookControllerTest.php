@@ -32,6 +32,27 @@ class OktaWebhookControllerTest extends WebTestCase
         'displayName' => 'Admin User',
     ];
 
+    public function testGetVerificationFailsWithMissingAuthToken(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/okta/webhook', [], [], [
+            'HTTP_x-okta-verification-challenge' => 'some-random-challenge-string',
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
+    }
+
+    public function testGetVerificationFailsWithInvalidAuthToken(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/okta/webhook', [], [], [
+            'HTTP_X-Auth-Token' => 'wrong_secret',
+            'HTTP_x-okta-verification-challenge' => 'some-random-challenge-string',
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
     public function testGetVerificationChallengeSuccess(): void
     {
         $client = static::createClient();
@@ -42,7 +63,10 @@ class OktaWebhookControllerTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_x-okta-verification-challenge' => $challenge]
+            [
+                'HTTP_X-Auth-Token' => 'test_secret',
+                'HTTP_x-okta-verification-challenge' => $challenge,
+            ]
         );
 
         $this->assertResponseIsSuccessful();
@@ -60,7 +84,9 @@ class OktaWebhookControllerTest extends WebTestCase
     public function testGetVerificationFailsWhenHeaderIsMissing(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/okta/webhook');
+        $client->request('GET', '/okta/webhook', [], [], [
+            'HTTP_X-Auth-Token' => 'test_secret',
+        ]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
     }
@@ -69,6 +95,7 @@ class OktaWebhookControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('GET', '/okta/webhook', [], [], [
+            'HTTP_X-Auth-Token' => 'test_secret',
             'HTTP_x-okta-verification-challenge' => 'invalid challenge with spaces!',
         ]);
 
