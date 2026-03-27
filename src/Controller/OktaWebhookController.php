@@ -197,5 +197,4 @@ final readonly class OktaWebhookController
 
         return new JsonResponse(['verification' => $challenge]);
     }
-
 }

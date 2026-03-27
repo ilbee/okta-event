@@ -20,7 +20,6 @@ use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserProfileUpdatedEvent;
 use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserReactivatedEvent;
 use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserSuspendedEvent;
 use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserUnsuspendedEvent;
-use Ilbee\Okta\Event\Service\LogSanitizer;
 use Psr\Log\LoggerInterface;
 
 final readonly class OktaEventMapper

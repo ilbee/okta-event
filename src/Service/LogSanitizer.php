@@ -14,7 +14,7 @@ final class LogSanitizer
         $value = preg_replace('/[\x00-\x1F\x7F]/', '', $value) ?? $value;
 
         if (mb_strlen($value) > $maxLength) {
-            return mb_substr($value, 0, $maxLength) . '...';
+            return mb_substr($value, 0, $maxLength).'...';
         }
 
         return $value;
