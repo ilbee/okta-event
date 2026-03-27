@@ -29,6 +29,7 @@ class OktaWebhookSecurityTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('GET', '/okta/webhook', [], [], [
+            'HTTP_X-Auth-Token' => 'test_secret',
             'HTTP_x-okta-verification-challenge' => 'some-valid-challenge',
         ]);
 
