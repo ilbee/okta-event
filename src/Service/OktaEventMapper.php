@@ -77,7 +77,7 @@ final readonly class OktaEventMapper
 
         if (null === $userTarget) {
             $this->logger->warning('No User target found in event.', [
-                'eventType' => $oktaEvent->eventType,
+                'eventType' => LogSanitizer::sanitize($oktaEvent->eventType),
             ]);
 
             return null;
@@ -85,8 +85,8 @@ final readonly class OktaEventMapper
 
         if (!filter_var($userTarget->alternateId, \FILTER_VALIDATE_EMAIL)) {
             $this->logger->warning('Skipping target with non-email alternateId.', [
-                'alternateId' => mb_substr($userTarget->alternateId, 0, 255),
-                'eventType' => mb_substr($oktaEvent->eventType, 0, 255),
+                'alternateId' => LogSanitizer::sanitize($userTarget->alternateId),
+                'eventType' => LogSanitizer::sanitize($oktaEvent->eventType),
             ]);
 
             return null;
@@ -121,7 +121,7 @@ final readonly class OktaEventMapper
 
         if (null === $groupTarget) {
             $this->logger->warning('No UserGroup target found in group membership event.', [
-                'eventType' => $oktaEvent->eventType,
+                'eventType' => LogSanitizer::sanitize($oktaEvent->eventType),
             ]);
 
             return null;
@@ -139,7 +139,7 @@ final readonly class OktaEventMapper
 
         if (null === $appTarget) {
             $this->logger->warning('No AppInstance target found in app assignment event.', [
-                'eventType' => $oktaEvent->eventType,
+                'eventType' => LogSanitizer::sanitize($oktaEvent->eventType),
             ]);
 
             return null;

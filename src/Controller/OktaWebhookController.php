@@ -7,6 +7,7 @@ namespace Ilbee\Okta\Event\Controller;
 use Ilbee\Okta\Event\DTO\OktaWebhookPayload;
 use Ilbee\Okta\Event\Event\GenericOktaEvent;
 use Ilbee\Okta\Event\Event\UserLifecycle\OktaUserLifecycleEvent;
+use Ilbee\Okta\Event\Service\LogSanitizer;
 use Ilbee\Okta\Event\Service\OktaEventIdStoreInterface;
 use Ilbee\Okta\Event\Service\OktaEventMapper;
 use Ilbee\Okta\Event\Service\OktaEventRegistry;
@@ -25,8 +26,6 @@ final readonly class OktaWebhookController
         OktaUserLifecycleEvent::DEACTIVATE,
         OktaUserLifecycleEvent::SUSPEND,
     ];
-
-    private const MAX_LOG_FIELD_LENGTH = 255;
 
     public function __construct(
         private SerializerInterface $serializer,
@@ -127,7 +126,7 @@ final readonly class OktaWebhookController
         foreach ($events as $oktaEvent) {
             if (null !== $oktaEvent->uuid && $this->eventIdStore->has($oktaEvent->uuid)) {
                 $this->logger->info('Skipping duplicate event.', [
-                    'uuid' => $this->truncateLogField($oktaEvent->uuid),
+                    'uuid' => LogSanitizer::sanitize($oktaEvent->uuid),
                 ]);
 
                 continue;
@@ -143,7 +142,7 @@ final readonly class OktaWebhookController
                     $typedEvent = $this->eventMapper->map($oktaEvent);
                 } catch (\Throwable $e) {
                     $this->logger->warning('Failed to map Okta event.', [
-                        'eventType' => $this->truncateLogField($oktaEvent->eventType),
+                        'eventType' => LogSanitizer::sanitize($oktaEvent->eventType),
                         'exception' => $e,
                     ]);
                     $typedEvent = null;
@@ -173,7 +172,7 @@ final readonly class OktaWebhookController
             // 4. Fallback: dispatch GenericOktaEvent for completely unknown events
             if (null === $individualEvent && null === $groupEvent && !$this->eventMapper->supports($oktaEvent->eventType)) {
                 $this->logger->info('Dispatching generic event for unknown Okta event type.', [
-                    'eventType' => $this->truncateLogField($oktaEvent->eventType),
+                    'eventType' => LogSanitizer::sanitize($oktaEvent->eventType),
                 ]);
                 $this->eventDispatcher->dispatch(new GenericOktaEvent($oktaEvent));
             }
@@ -197,14 +196,5 @@ final readonly class OktaWebhookController
         }
 
         return new JsonResponse(['verification' => $challenge]);
-    }
-
-    private function truncateLogField(string $value): string
-    {
-        if (mb_strlen($value) > self::MAX_LOG_FIELD_LENGTH) {
-            return mb_substr($value, 0, self::MAX_LOG_FIELD_LENGTH).'...';
-        }
-
-        return $value;
     }
 }
