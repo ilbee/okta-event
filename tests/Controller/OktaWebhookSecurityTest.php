@@ -36,6 +36,58 @@ class OktaWebhookSecurityTest extends WebTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
+    public function testPostWithWrongContentTypeReturns415(): void
+    {
+        $client = static::createClient();
+
+        $client->request(
+            'POST',
+            '/okta/webhook',
+            [],
+            [],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'text/plain'],
+            '{"data":{"events":[]}}'
+        );
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
+    }
+
+    public function testPostWithMissingContentTypeReturns415(): void
+    {
+        $client = static::createClient();
+
+        $client->request(
+            'POST',
+            '/okta/webhook',
+            [],
+            [],
+            ['HTTP_X-Auth-Token' => 'test_secret'],
+            '{"data":{"events":[]}}'
+        );
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
+    }
+
+    public function testContentLengthExceedingMaxIsRejectedBeforeReadingBody(): void
+    {
+        $client = static::createClient();
+
+        $client->request(
+            'POST',
+            '/okta/webhook',
+            [],
+            [],
+            [
+                'HTTP_X-Auth-Token' => 'test_secret',
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_Content-Length' => '9999',
+            ],
+            '{"data":{"events":[]}}'
+        );
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_REQUEST_ENTITY_TOO_LARGE);
+    }
+
     public function testPayloadExceedingMaxSizeIsRejected(): void
     {
         $client = static::createClient();
@@ -48,7 +100,7 @@ class OktaWebhookSecurityTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $oversizedPayload
         );
 
@@ -85,7 +137,7 @@ class OktaWebhookSecurityTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -130,7 +182,7 @@ class OktaWebhookSecurityTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
@@ -149,7 +201,7 @@ class OktaWebhookSecurityTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             '{not valid json'
         );
 
@@ -201,7 +253,7 @@ class OktaWebhookSecurityTest extends WebTestCase
             '/okta/webhook',
             [],
             [],
-            ['HTTP_X-Auth-Token' => 'test_secret'],
+            ['HTTP_X-Auth-Token' => 'test_secret', 'CONTENT_TYPE' => 'application/json'],
             $payload
         );
 
